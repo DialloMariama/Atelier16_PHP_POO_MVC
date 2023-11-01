@@ -1,4 +1,4 @@
-<!-- 
+
 <?php
 require_once('../Controller/DetailContact.php');
 $contacts =  Contact::listerContact($db);
@@ -57,4 +57,4 @@ $contacts =  Contact::listerContact($db);
         <button type="submit" name="liste_contact"><a href="creationContact.php">liste des contacts</a></button>
 
 </body>
-</html> -->
+</html>
