@@ -1,0 +1,74 @@
+body{
+    background-color: #f6f6f6;
+}
+
+.formulaire{
+    max-width: 500px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin-left: 400px;
+    margin-top: 100px; 
+    box-shadow: 10px 10px 10px 10px #bcbbbb;
+}
+
+.inscrire{
+    background-color: #235182;
+    color: white;
+    border: none;
+    width: 100px;
+    height: 35px;
+    margin-left: 350px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px 1px #bcbbbb;
+}
+a{
+    color: rgb(0, 0, 0);
+}
+
+input{
+    height: 30px;
+    border: none;
+    box-shadow: 1px 1px 1px 1px #bcbbbb;
+}
+.test{
+  display: flex;
+}
+
+#nom{
+    margin-left: 110px;
+}
+#tel{
+    width: 440px;
+    height: 30px;
+    border: none;
+    box-shadow: 1px 1px 1px 1px #bcbbbb;
+}
+
+#favori{
+    width: 440px;
+    padding: 10px;
+    margin-bottom: 10px;
+    /* border: 1px solid #ccc; /
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px #bcbbbb;
+}
+
+table, th, td {
+    border: 1px solid black;
+    width: 500px;
+    margin-left: 400px;
+    margin-top: 100px;
+}
+
+.inscrire{
+    background-color: #548fcf;
+    color: white;
+    border: none;
+    width: 100px;
+    height: 35px;
+    / margin-left: 350px; */
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px 1px #bcbbbb;
+}

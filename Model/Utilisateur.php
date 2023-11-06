@@ -77,15 +77,10 @@ class Utilisateur implements IUtilisateur{
         $stmt = $db->prepare($sql);
         $stmt->execute([$email]);
         $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
-
         if ($utilisateur && password_verify($password, $utilisateur['password'])) {
-            $_SESSION['utilisateur'] = $utilisateur;
-            // $_SESSION['utilisateur_id'] = $utilisateur['id'];
-            // $_SESSION['utilisateur_nom'] = $utilisateur['nomUtilisateur'];
-
-
+             $_SESSION['utilisateur'] = $utilisateur;
             echo "Coucou ";
-            header('Location: creationContact.php'); 
+            header('Location: ../View/creationContact.php'); 
         } else {
       
             $messageErreur = "Adresse e-mail ou mot de passe incorrect.";
