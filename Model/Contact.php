@@ -59,27 +59,36 @@ class Contact implements IContact{
     }
 
 
-    public function ajoutContact($db){
+    public function ajoutContact($db,$idUtilisateur){
         $nom = $this->getNom();
         $prenom = $this->getPrenom();
         $numeroTel = $this->getNumeroTel();
         $favori = $this->getFavori();
-        $idUtilisateur= $_SESSION['utilisateur_id'];
-
+       
         $insertion = "INSERT INTO contact(idUtilisateur, nom, prenom, numeroTel, favori) values (?, ?, ?, ?, ?)";
         $stmt=$db->prepare($insertion);
         $stmt->execute([$idUtilisateur, $nom, $prenom, $numeroTel, $favori]);
 
 
     }
-    public static function modifierContact(){
-
+    public static function GetContact($bd,$contact_id){
+        $contact="SELECT * FROM contact WHERE idContact=$contact_id";
+        return $bd->query($contact)->fetch();
     }
-    public static function listerContact($db){
+    public static function modifierContact($bd, $contact_id, $nom, $prenom, $numeroTel, $favori){
+      
+        $modif="UPDATE contact SET nom= ?,prenom= ?,numeroTel= ?, favori= ? WHERE idContact=?";
+        $stmt=$bd->prepare($modif);
+        $stmt->execute([$nom, $prenom, $numeroTel, $favori,$contact_id]);
+        echo "Modification réussi";
+    }
+   
+    public static function listerContact($db, $idUtilisateur){
     
     
-            $sql = "SELECT * FROM contact";
-            $stmt = $db->query($sql);
+            $sql = "SELECT * FROM contact WHERE idUtilisateur = ?";
+            $stmt=$db->prepare($sql);
+            $stmt->execute([$idUtilisateur]);
             $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
             return $contacts;
@@ -89,7 +98,5 @@ class Contact implements IContact{
     public function SupprimerContact(){
 
     }
-
-
     
 }

@@ -8,8 +8,7 @@ $nom="";
 $prenom="";
 $numeroTel="";
 $favori="";
-$_SESSION['utilisateur_id'];
-$_SESSION['utilisateur_nom'] ;
+$idUtilisateur = $_SESSION['utilisateur']['id'];
 
 $erreurs=[];
 
@@ -21,15 +20,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $prenom= $_POST['prenom'];
         $numeroTel= $_POST['numeroTel'];
         $favori= $_POST['favori'];
-        $idUtilisateur= $_SESSION['utilisateur_id'];
-    
-        // var_dump($nom);
-        // var_dump($prenom);
-        // var_dump($numeroTel);
-        // var_dump($favori);
-        // var_dump($idUtilisateur);
-
-
+        $idUtilisateur= $_SESSION['utilisateur']['id'];
 
         $regex_nom = "/^[a-zA-Z ']{2,}$/";
         $regex_prenom = "/^[a-zA-Z ']{3,}$/";
@@ -64,18 +55,18 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 if($count_numeroTel_exist === 0){
                     $nouveauContact = new Contact($nom, $prenom, $numeroTel, $favori);
             
-                     $insertionReussie = $nouveauContact->ajoutContact($db);
+                     $insertionReussie = $nouveauContact->ajoutContact($db,$idUtilisateur);
     
                      if ($insertionReussie) {
-                        echo "Insertion reussie";
-                        exit;
-                    } else {
                         echo "Insertion echouée";
+                    } else {
+                        echo "Insertion reusse";
                         
                     }
-                
-            
-            }
+                }else{
+                    echo "Ce numero de telephone existe dejà";
+
+                }
     
     
         }
@@ -94,5 +85,72 @@ if (isset($_SESSION['utilisateur_id'])) {
     } else {
         // header('Location: interface_utilisateur.php');
         // exit();
+    }
+
+    if (isset($_GET['contact_id'])) {
+        $contact_id = $_GET['contact_id'];
+
+        $requete = "SELECT * FROM contact WHERE idContact = ?";
+        $stmt = $db->prepare($requete);
+        $stmt->execute([$contact_id]);
+        $contact = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (isset($contact)) {
+            // j'ai affiché le resultat dans le tableau HTML
+        } else {
+            echo "Contact non trouvé.";
+        }
+    } else {
+       // echo "Paramètre contact_id manquant.";
+    }
+
+    
+if (isset($_POST['marquer_favori'])) {
+    $contact_id = $_POST['contact_id'];
+
+    $update_query = "UPDATE contact SET favori = 'oui' WHERE idContact = ?";
+    $stmt = $db->prepare($update_query);
+    $stmt->execute([$contact_id]);
+   
+        header('Location: creationContact.php?contact_id=' . $contact_id);
+        exit;
+
+    
+}
+
+if (isset($_POST['supprimer_contact']) && isset($_POST['contact_id'])) {
+    $contact_id = $_POST['contact_id'];
+
+    $delete_query = "DELETE FROM contact WHERE idContact = ?";
+    $stmt = $db->prepare($delete_query);
+
+    if ($stmt->execute([$contact_id])) {
+        header('Location: creationContact.php');
+        exit;
+    }
+}
+
+if(isset($_POST['modifier'])){
+    $nom=$_POST['nom'];
+    $prenom=$_POST['prenom'];
+    $numeroTel=$_POST['numeroTel'];
+    $favori=$_POST['favori'];
+
+    if(empty($nom) || empty($prenom) ||empty($numeroTel) || empty($favori)){
+        echo "Veuillez renseigner tous les champs !!!";
+    }else{
+        $contact= new Contact($nom,$prenom,$numeroTel,$favori);
+        $contact->ModifierContact($db,$_GET['contact_id'],$nom, $prenom, $numeroTel, $favori);
+        header("location:../View/CreationContact.php");
+    }
+}
+
+    if (isset($_POST['deconnexion'])) {
+        if (isset($_SESSION['utilisateur']['id'])) {
+            unset ( $_SESSION['utilisateur']);
+            session_destroy();
+            header('Location: creationUtilisateur.php'); 
+            exit();
+        }
     }
 ?>

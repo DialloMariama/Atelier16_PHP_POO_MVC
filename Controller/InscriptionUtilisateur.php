@@ -64,27 +64,27 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         }
     }
 
-    if(isset($_POST["se_connecter"])){
-        $email= $_POST['email'];
-        $password= md5($_POST['password']);
+    // if(isset($_POST["se_connecter"])){
+    //     $email= $_POST['email'];
+    //     $password= md5($_POST['password']);
 
 
-        $connexion="SELECT * FROM utilisateurs WHERE email = ? AND password = ?";
-        $stmt=$db->prepare($connexion);
-        $stmt->execute([$email, $password]);
-        $utilisateur=$stmt->fetch(PDO::FETCH_ASSOC);
+    //     $connexion="SELECT * FROM utilisateurs WHERE email = ? AND password = ?";
+    //     $stmt=$db->prepare($connexion);
+    //     $stmt->execute([$email, $password]);
+    //     $utilisateur=$stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($utilisateur){
-            $_SESSION['utilisateur_id'] = $utilisateur['id'];
-            $_SESSION['utilisateur_nom'] = $utilisateur['nomUtilisateur'];
+    //     if($utilisateur){
+    //         $_SESSION['utilisateur_id'] = $utilisateur['id'];
+    //         $_SESSION['utilisateur_nom'] = $utilisateur['nomUtilisateur'];
            
-            // header('Location: creationContact.php'); 
+    //         // header('Location: creationContact.php'); 
             
-        }else{
-            echo "echec de connexion";
-        }
+    //     }else{
+    //         echo "echec de connexion";
+    //     }
 
-    }
+    // }
     
 }
 
